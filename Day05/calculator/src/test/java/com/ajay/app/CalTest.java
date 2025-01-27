@@ -20,4 +20,10 @@ public class CalTest {
         double result= calculator.multiply(5,10);
         assert result==50;
     }
+    @Test
+    public void testDivide() {
+        Cal calculator = new Cal();
+        double result= calculator.divide(50,10);
+        assert result==5;
+    }
 }
