@@ -5,7 +5,7 @@ package com.ajay.app;
  *
  */
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigures.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class App 
 {
