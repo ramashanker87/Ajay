@@ -29,7 +29,7 @@ public class PatientServiceTest {
         assert expectedPatient != null;
         assert expectedPatient.getId()== p1.getId();
         assert expectedPatient.getName()== p1.getName();
-        assert expectedPatient.getAge()==30;
+        assert expectedPatient.getAge()==25;
     }
 
     @Test

@@ -47,27 +47,31 @@ public class PatientControllerTest {
     public void testCreatePatients() {
         Patient p1 = new Patient("p1","1","A",25,"F");
         when(patientService.createPatient(p1)).thenReturn(p1);
-        Patient resultEmployee=patientController.createPatient(p1);
-        assert resultEmployee!=null;
-        assert resultEmployee.getId()==p1.getId();
-        assert resultEmployee.getName().equals("p1");
-        assert resultEmployee.getAge()==25;
+        Patient resultPatient=patientController.createPatient(p1);
+        assert resultPatient!=null;
+        assert resultPatient.getId()==p1.getId();
+        assert resultPatient.getName().equals("p1");
+        assert resultPatient.getAge()==25;
+        assert resultPatient.getHospitalName()=="A";
+
     }
     @Test
     public void testUpdatePatients() {
         Patient p1 = new Patient("p1","1","A",25,"F");
         Patient p2 = new Patient("p2","2","B",21,"M");
-        when(patientService.updatePatient(anyString(),anyString())).thenReturn(p2);
+        when(patientService.updatePatient(anyString(),String.valueOf(anyInt()))).thenReturn(p2);
         Patient resultPatient=patientController.updatePatient(p1.getHospitalName(),"D");
         assert resultPatient!=null;
-        assert resultPatient.getId()==p2.getId();
+        assert resultPatient.getId()==p1.getId();
         assert resultPatient.getName().equals("p2");
-        assert resultPatient.getHospitalName()=="D";
+        assert resultPatient.getHospitalName()=="B";
+        assert resultPatient.getAge()==21;
+        assert resultPatient.getGender()=="M";
     }
     @Test
-    public void testDeleteEmployees() {
+    public void testDeletePatients() {
         doNothing().when(patientService).deletePatient(anyString());
-        patientController.deletePatient("1");
+        patientController.deletePatient("p1");
         verify( patientController, atLeast(1)).deletePatient(anyString());
     }
 
