@@ -1,31 +1,27 @@
 package com.ajay.app.controller;
+
 import com.ajay.app.model.Student;
-import com.ajay.app.repository.StudentRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import com.ajay.app.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private final StudentRepository studentRepository;
 
-    public StudentController(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
+    @Autowired
+    private StudentService studentService;
+
+    @RequestMapping(value ="/read", method= RequestMethod.GET)
+    public Iterable<Student> readAllStudents() {
+        return studentService.getAllStudents();
     }
 
-    @GetMapping("/read")
-    public Iterable<Student> read() {
-        return studentRepository.findAll();
-    }
-
-    @PostMapping("/save")
-    public String save(@RequestBody final Student student) {
-        System.out.println("Saving user: " + student);
-        studentRepository.save(student);
-        return "save";
+    @RequestMapping(value ="/save", method= RequestMethod.POST)
+    public String addStudent(@RequestBody Student student) {
+        return studentService.saveStudent(student);
     }
 }
