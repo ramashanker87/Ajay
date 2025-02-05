@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class PatientServiceTest {
@@ -13,59 +12,58 @@ public class PatientServiceTest {
     PatientService patientService;
 
     @Test
-    public void testCreatePatients() {
-        Patient p1 = new Patient("p1","1","A",25,"F");
-        Patient expectedPatient=patientService.createPatient(p1);
-        assert expectedPatient != null;
-        assert expectedPatient.getId()== p1.getId();
-        assert expectedPatient.getName()== p1.getName();
-        assert expectedPatient.getAge()== p1.getAge();
+    public void testGetPatient(){
+
+        Patient patient1 = new Patient("Hari",67,1,"M","hospital1");
+        Patient patient2 = new Patient("Fel",27,2,"F","hospital2");
+        Patient patient3 = new Patient("John",47,3,"M","hospital1");
+
+        //inserting data into map
+
+        patientService.add(patient1);
+        patientService.add(patient2);
+        patientService.add(patient3);
+
+        Map<Integer, Patient> resultPatientMap = patientService.getPatient();
+        assert resultPatientMap.size() == 3;
+        assert resultPatientMap.get(patient1.getId()) == patient1;
+        assert resultPatientMap.get(patient2.getId()) == patient2;
+        assert resultPatientMap.get(patient3.getId()) == patient3;
+    }
+    @Test
+    public void testAdd(){
+        Patient patient = new Patient("Fel",27,2,"F","hospital2");
+        Patient resultPatient = patientService.add(patient);
+        assert  resultPatient != null;
+        assert resultPatient.getId()  == patient.getId();
+        assert resultPatient.getId() == patient.getId();
+        assert resultPatient.getAge() == patient.getAge();
+        assert resultPatient.getHospitalName().equals(patient.getHospitalName());
+        assert resultPatient.getName().equals(patient.getName());
+        assert resultPatient.getPatientGender().equals(patient.getPatientGender());
     }
 
     @Test
-    public void testUpdatePatient() {
-        Patient p1 = new Patient("p1","1","A",25,"F");
-        Patient expectedPatient=patientService.createPatient(p1);
-        assert expectedPatient != null;
-        assert expectedPatient.getId()== p1.getId();
-        assert expectedPatient.getName()== p1.getName();
-        assert expectedPatient.getAge()==25;
+    public void testUpdate(){
+        Patient oldPatient = new Patient("Fel",27,2,"F","hospital2");
+        Patient newPatient = patientService.add(oldPatient);
+        Patient resultPatient = patientService.update(oldPatient.getId(),"newHospital2");
+        assert resultPatient != null;
+        assert resultPatient.getId() == newPatient.getId();
+        assert resultPatient.getAge() == newPatient.getAge();
+        assert resultPatient.getHospitalName().equals(newPatient.getHospitalName());
+        assert resultPatient.getName().equals(newPatient.getName());
+        assert resultPatient.getPatientGender().equals(newPatient.getPatientGender());
     }
 
     @Test
-    public void testDeletePatient() {
-        Patient p1 = new Patient("p1","1","A",25,"F");
-        Patient expectedPatient=patientService.createPatient(p1);
-        patientService.deletePatient(p1.getName());
-        Patient expectedResult=patientService.readPatientByName(p1.getName());
-        assert expectedResult== null;
+    public void testDelete(){
+        Patient oldPatient = new Patient("Fel",27,2,"F","hospital2");
+        Patient createdPatient = patientService.add(oldPatient);
+        patientService.delete(createdPatient.getId());
+        Map<Integer, Patient> resultPatient = patientService.getPatient();
+        //resultPatient.put(oldPatient.getId(),oldPatient);
+        assert  resultPatient.get(oldPatient.getId()) == null;
 
-    }
-    @Test
-    public void testReadPatientsBYName() {
-        Patient p1 = new Patient("p1","1","A",25,"F");
-        Patient actualPatient=patientService.createPatient(p1);
-        Patient expectedResult=patientService.readPatientByName(p1.getId());
-        assert expectedResult != null;
-        assert expectedResult.getId()== actualPatient.getId();
-        assert expectedResult.getName()== actualPatient.getName();
-        assert expectedResult.getAge()== actualPatient.getAge();
-    }
-    @Test
-    public void testReadAllPatients() {
-        Patient p1 = new Patient("p1","1","A",25,"F");
-        Patient p2 = new Patient("p2","2","B",21,"M");
-        Patient p3 = new Patient("p3","3","C",43,"M");
-        patientService.createPatient(p1);
-        patientService.createPatient(p2);
-        patientService.createPatient(p3);
-        Map<String,Patient> result= patientService.readAllPatients();
-        assert result.size()==3;
-        assert result.containsKey(p1.getId());
-        assert result.containsKey(p2.getId());
-        assert result.containsKey(p3.getId());
     }
 }
-
-
-
