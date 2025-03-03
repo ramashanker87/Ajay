@@ -1,12 +1,10 @@
 package com.ajay.app.controller;
-
 import com.ajay.app.module.Car;
 import com.ajay.app.service.ParkingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/parking")
 public class Parking {

@@ -8,7 +8,6 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 @Configuration
 public class ProducerRabbitMqConfig {
     @Value("${rabbitmq.exchange.name}")
@@ -21,16 +20,14 @@ public class ProducerRabbitMqConfig {
     private String startResponseQueueName;
     @Value("${rabbitmq.end.response.queue.name}")
     private String endResponseQueueName;
-
-    // Routing Keys
     @Value("${rabbitmq.start.request.routingkey.name}")
     private String startRequestRoutingKeyName;
     @Value("${rabbitmq.end.request.routingkey.name}")
     private String endRequestRoutingKeyName;
 
-    // Routing Keys
     @Value("${rabbitmq.start.response.routingkey.name}")
     private String startResponseRoutingKeyName;
+
     @Value("${rabbitmq.end.response.routingkey.name}")
     private String endResponseRoutingKeyName;
 
@@ -38,10 +35,12 @@ public class ProducerRabbitMqConfig {
     public Queue startResponseQueue() {
         return new Queue(startResponseQueueName, true);
     }
+
     @Bean
     public Queue endResponseQueue() {
         return new Queue(endResponseQueueName, true);
     }
+
     @Bean
     public Binding startResponseBinding(Queue startResponseQueue) {
         return BindingBuilder.bind(startResponseQueue).to(new DirectExchange(exchangeName))

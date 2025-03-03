@@ -10,8 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class ParkingService {
+
     public static final Logger logger = LoggerFactory.getLogger(ParkingService.class);
 
     @Value("${rabbitmq.exchange.name}")
@@ -24,25 +28,27 @@ public class ParkingService {
     private final AmqpTemplate producerAmqpTemplate;
     public ParkingService( AmqpTemplate producerAmqpTemplate) {
         this.producerAmqpTemplate = producerAmqpTemplate;
+
     }
 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-
-    public String parkingStartService(Car car, String parkingNumber){
+    public String parkingStartService(Car car, String parkingNumber) {
         logger.info("Acquiring parking number " + parkingNumber);
-        producerAmqpTemplate.convertAndSend(exchangeName, startRequestRoutingKeyName, car);
-        return "Parking is starting...";
+        Map<String, Object> message = new HashMap<>();
+        message.put("car", car);
+        message.put("parkingNumber", parkingNumber);
+        producerAmqpTemplate.convertAndSend(exchangeName, startRequestRoutingKeyName, message);
+        return "Parking is starting";
     }
 
     public String parkingEndService( String parkingNumber){
         logger.info("releasing parking number " + parkingNumber);
         producerAmqpTemplate.convertAndSend(exchangeName, endRequestRoutingKeyName, parkingNumber);
-        return "Parking is ending...";
+        return "Parking is ending";
     }
-
     @RabbitListener(queues = "${rabbitmq.start.response.queue.name}")
     public void receiveStartResponse(String message) {
         logger.info("Received start response: " + message);
@@ -52,4 +58,5 @@ public class ParkingService {
     public void receiveEndResponse(String message) {
         logger.info("Received end response: " + message);
     }
+
 }
