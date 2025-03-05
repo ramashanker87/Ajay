@@ -1,0 +1,6 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  AjayECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: ajay-microservice-repo
