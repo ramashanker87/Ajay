@@ -1,4 +1,4 @@
-package com.rama.app;
+package com.ajay.app;
 class Shape {
     double area(){return 0.0;};
 }
