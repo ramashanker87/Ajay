@@ -1,5 +1,5 @@
-package com.rama.app;
-import com.rama.app.Employee;
+package com.ajay.app;
+import com.ajay.app.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
