@@ -1,11 +1,11 @@
 # AWS CI CD Pipeline
 
 ## Create the CodeCommit repository:
-    aws codecommit create-repository --repository-name PrashantSpringBootAppRepo --repository-description " Prashant Spring Boot app deployment"
+    aws codecommit create-repository --repository-name AjaySpringBootAppRepo --repository-description " Ajay Spring Boot app deployment"
 
 ## Clone the repository to your local machine:
 
-    git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/PrashantSpringBootAppRepo
+    git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/AjaySpringBootAppRepo
     cd RamaSpringBootAppRepo
 
 ## Push the Spring Boot application code
